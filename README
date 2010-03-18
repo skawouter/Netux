@@ -1,10 +1,16 @@
 Right now this thing boots and writes "testerder" to the screen.
 It's my first go on an OS :).
 
-just run build.sh in the main directory and it should build (tested on linux MINT 8)
+Just run build.sh in the main directory and it should build (tested on linux MINT 8 64bit)
 
-for the building process I use a seperate toolchain that builds to i586 wich you can install in ubuntu
-by first doing
+It generates a floppy.img wich you can use in virtualbox(or vmware) to boot from.
+
+for the building process I use a seperate cross compile toolchain that builds to i586 wich you can install in ubuntu
+
+Installing the cross compile toolchain (thanks to http://www.pedigree-project.org/)
+--------------------------------------
+
+first do
 sudo nano /etc/apt/sources.list
 
 add the following lines to the list
