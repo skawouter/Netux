@@ -1,0 +1,23 @@
+Right now this thing boots and writes "testerder" to the screen.
+It's my first go on an OS :).
+
+just run build.sh in the main directory and it should build (tested on linux MINT 8)
+
+for the building process I use a seperate toolchain that builds to i586 wich you can install in ubuntu
+by first doing
+sudo nano /etc/apt/sources.list
+
+add the following lines to the list
+#the first one was not working last time
+#deb http://www.pedigree-project.org/debian/ stable main    #Primary Mirror. Hosted by OrOS.
+deb http://www.tucs.org.au/~jscott4/debian/ stable main    #Primary Mirror. Hosted by University of Tasmania.
+
+then add the keys for the repo
+gpg --recv-keys 0x2F90DE4A
+gpg -a --export 0x2F90DE4A | sudo apt-key add -
+
+and finally install the cross compiler (you may have to set your $PATH right so it 
+includes all the i586-elf... files)
+
+Enjoy!
+
