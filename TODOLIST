@@ -1,0 +1,10 @@
+* make console scrollable
+* make maybe something fork like
+
+* probably don't have to run other processes only kernel procs
+
+*keyboard mapping/interrupts
+*or just handling interrupts for that matter
+
+*driver for generic network card
+...

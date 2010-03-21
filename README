@@ -1,11 +1,23 @@
 Right now this thing boots and writes "testerder" to the screen.
 It's my first go on an OS :).
 
+
+TO USE IT
+---------
+use virtualbox or vmware or whatever virtual machine thingy you want to use
+and use the bin/floppy.img as floppy disk.
+
+You can also write it to an actual floppy :| an boot from it
+or you can convert it to iso an burn it on a cd and boot from that
+
+
+TO BUILD IT
+-----------
 Just run build.sh in the main directory and it should build (tested on linux MINT 8 64bit)
 
-It generates a floppy.img wich you can use in virtualbox(or vmware) to boot from.
+It generates a bin/floppy.img wich you can use in virtualbox(or vmware) to boot from.
 
-for the building process I use a seperate cross compile toolchain that builds to i586 wich you can install in ubuntu
+for the building process I use a seperate cross compile toolchain that builds to i586 wich you can install in ubuntu/mint
 
 Installing the cross compile toolchain (thanks to http://www.pedigree-project.org/)
 --------------------------------------

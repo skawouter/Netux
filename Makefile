@@ -1,7 +1,7 @@
 all: kernel
 
 kernel: kernel.o loader.o
-	i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o
+	i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o
 	
 
 loader.o: ./src/loader.s
@@ -10,7 +10,8 @@ loader.o: ./src/loader.s
 kernel.o: ./src/kernel.c
 	i586-elf-gcc -o ./bin/kernel.o -c ./src/kernel.c -Wall -Wextra \
 				    -nostdlib -nostartfiles -nodefaultlibs
-
+	i586-elf-gcc -o ./bin/console.o -c ./src/console.c -Wall -Wextra \
+				    -nostdlib -nostartfiles -nodefaultlibs
 clean: 
 	rm -f ./bin/*
 
