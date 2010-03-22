@@ -2,6 +2,7 @@
 unsigned int consmem[2][80*25*2];
 unsigned int position[2];
 unsigned int lastconsole = 0;
+
 void writetoconsole(char *writethis, unsigned int console)
 {
 	if ( position[console] == 0 ){
@@ -9,11 +10,27 @@ void writetoconsole(char *writethis, unsigned int console)
 	}
 	unsigned int i = 0;
 	while ( writethis[i] != 0 ){	
+		if ( position[console]+2 >= 80*25*2 ) 
+		{
+			scrollconsole(console);
+		}
 		consmem[console][position[console]] = writethis[i];
 		i++;
 		position[console] += 2;
 	}
+	
 	refreshconsole(console);
+}
+void scrollconsole(unsigned int console){
+	unsigned int i;
+	for (i=0; i <= (80*25*2)-160;i++)
+	{
+		consmem[console][i] = consmem[console][i+160];
+	}
+	for(i=(80*25*2)-160; i <= (80*25*2);i+=2){
+		consmem[console][i] = ' ';
+	}
+	position[console] -= 160;
 }
 void setconsole(unsigned int console){
 	lastconsole = console;
@@ -40,6 +57,6 @@ void write(char *writethis)
 {
 	writetoconsole(writethis,lastconsole);
 	position[lastconsole] = position[lastconsole] / 160;
-	position[lastconsole] += 160;
+	position[lastconsole]  = (position[lastconsole]+1) * 160;
 
 }

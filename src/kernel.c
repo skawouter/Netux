@@ -1,4 +1,5 @@
 #include "console.h"
+#include "inter.h"
 void kmain( void* mbd, unsigned int magic )
 {
    if ( magic != 0x2BADB002 )
@@ -6,8 +7,10 @@ void kmain( void* mbd, unsigned int magic )
       write("the bootloader made a booboo :(");
    }
     char * boot_loader_name =(char*) ((long*)mbd)[16];
-    write("this works");
-    write("this works too");
+    write("testing write to screen");
+    write("going to setup GDT hold on to your boots :|");
+    init_descriptor_tables();
+   write("phew that went well");
 }
 
 
