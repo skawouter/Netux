@@ -1,6 +1,6 @@
 
 extern void gdt_flush(unsigned long int);
-
+extern void setGdt(unsigned char[24],int);
 void init_gdt();
 void gdt_set_gate(long int,unsigned long int,unsigned long int,unsigned short int,unsigned short int);
 
@@ -23,3 +23,4 @@ struct gdt_ptr
 } __attribute__ ((packed));
 typedef struct gdt_ptr gdt_ptr_t;
 void init_descriptor_tables();
+void doitinfull();

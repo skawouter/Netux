@@ -1,16 +1,22 @@
-[GLOBAL gdt_flush]			; the function exposed 8)
+[GLOBAL setGdt]
+gdtr DW 0
+	DD 0
 
-gdt_flush:
-	mov eax, [esp+4]		; put our parameter in eax
-	lgdt [eax]				; this is our GDT load it and please don't crash
-	
+setGdt:
+	   MOV   EAX, [esp + 4]
+	   MOV   [gdtr + 2], EAX
+	   MOV   AX, [ESP + 8]
+	   MOV   [gdtr], AX
+	   LGDT  [gdtr]
+	   jmp 0x08:reload_CS 		;our code is at 0x08 now so we jump there
+	   RET
 
-	jmp 0x08:.flush			; And now let's get back to the code
-.flush:
-	mov ax, 0x10			; 0x10 is our data segment let's put it in all of the segment registers
+reload_CS:
+	mov ax, 0x10				; and our data is at 0x10 so we load that into the segment registers
 	mov ds, ax
 	mov es, ax
 	mov fs, ax
 	mov gs, ax
 	mov ss, ax
 	ret
+	

@@ -5,3 +5,4 @@ void clearconsole(unsigned int console);
 void setconsole(unsigned int console);
 void write(char *writethis);
 void scrollconsole(unsigned int console);
+void writenumber(unsigned int inp);
