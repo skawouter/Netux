@@ -1,4 +1,6 @@
 [GLOBAL setGdt]
+[GLOBAL setIdt]
+
 gdtr DW 0
 	DD 0
 
@@ -18,5 +20,10 @@ reload_CS:
 	mov fs, ax
 	mov gs, ax
 	mov ss, ax
+	ret
+	
+setIdt:
+	mov eax, [esp+4]
+	lidt [eax]
 	ret
 	

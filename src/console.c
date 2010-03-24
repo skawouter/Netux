@@ -5,16 +5,28 @@ unsigned int lastconsole = 0;
 
 void writenumber(unsigned int inp)
 {
+	int million = inp/1000000;
+	inp = inp - (million * 1000000);
+	int hundredthousand = inp/100000;
+	inp = inp - (hundredthousand * 100000);
+	int tenthousand = inp/10000;
+	inp = inp - (tenthousand * 10000);
+	int thousand = inp/1000;
+	inp = inp - (thousand * 1000);
 	int hunderd = inp/100;
 	inp = inp - (hunderd * 100);
 	int ten = inp/10;
 	inp = inp - (10*ten);
 	int zero = inp;
-	char getal[4];
-	getal[0] = hunderd + 48;
-	getal[1] = ten + 48;
-	getal[2] = zero + 48;
-	getal[3] = 0;
+	char getal[8];
+	getal[0] = million +48;
+	getal[1] = hundredthousand +48;
+	getal[2] = tenthousand +48;
+	getal[3] = thousand +48;
+	getal[4] = hunderd + 48;
+	getal[5] = ten + 48;
+	getal[6] = zero + 48;
+	getal[7] = 0;
 	write(getal);
 }
 void writetoconsole(char *writethis, unsigned int console)
