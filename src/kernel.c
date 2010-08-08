@@ -14,6 +14,8 @@ void kmain( void* mbd, unsigned int magic )
    write("let's try some interrupts");
    write("inter 3 and 4");
    asm volatile ("int $0x20");
+   asm volatile ("int $0x18");
+   asm volatile ("int $0x17");
    write("and nothing happens");
 }
 
