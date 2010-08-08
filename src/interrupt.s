@@ -49,26 +49,33 @@ ISR_NOERRORCODE 30
 ISR_NOERRORCODE 31
 ISR_NOERRORCODE 32		; this does everything from 32-255 for now
 isr_common:
+	
 ;save everything execute code for interrupt and return where we were aaaah...
-	pusha
-	mov ax, ds ;save ds
-	push eax	 ;put it on the stack
-	mov ax, 0x10 ; load the ds descriptor
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
+	pushad
+	;mov ax, ds ;save ds
+	;push eax	 ;put it on the stack
+
+	;mov ax, 0x10 ; load the ds descriptor
+	;mov ds, ax
+	;mov es, ax
+	;hlt
+	;mov fs, ax
+	
+	;mov gs, ax
+	
 	
 	call isr_handler
+	hlt
+	;pop eax		;get our saved state back
+	;mov ds, ax
+	;mov es, ax
+	;mov fs, ax
+
+	;mov gs, ax
 	
-	pop eax		;get our saved state back
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-	
-	popa			;get all our registers back
-	add esp, 8		;our parameters get cleaned up
-	sti			; ready for more
-	O32 iret		;get back to our running code
+	popad			;get all our registers back
+	;add esp, 8		;our parameters get cleaned up
+	;sti			; ready for more
+	;O32 
+	iret		;get back to our running code
 	

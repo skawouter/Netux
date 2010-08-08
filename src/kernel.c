@@ -10,10 +10,10 @@ void kmain( void* mbd, unsigned int magic )
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables();
-   write("phew that went well");
-   write("let's try some interrupts :|");
+   write("phew that went well blablabla ");
+   write("let's try some interrupts");
    write("inter 3 and 4");
-   asm volatile ("int $0x3");
+   asm volatile ("int $0x20");
    write("and nothing happens");
 }
 
