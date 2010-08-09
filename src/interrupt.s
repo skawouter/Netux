@@ -55,10 +55,5 @@ isr_common:
 	call isr_handler
 	popad			;get all our registers back
 	add esp, 8		;our parameters get cleaned up
-	;sti
-	pop edx
-	add esp, 8		;cleaning the interrupt params
-	sti
-	jmp edx
-	ret		;get back to our running code
+        iret                    ;this will totally reboot it buy why?
 	
