@@ -56,13 +56,31 @@ void init_idt()
 	idt_set_gate(29,(unsigned int)isr29, 0x08, 0x8e);
 	idt_set_gate(30,(unsigned int)isr30, 0x08, 0x8e);
 	idt_set_gate(31,(unsigned int)isr31, 0x08, 0x8e);
-	idt_set_gate(32,(unsigned int)isr32, 0x08, 0x8e);
+
+	//and now for the irqs
+	idt_set_gate(32,(unsigned int)irq32, 0x08, 0x8e);
+	idt_set_gate(33,(unsigned int)irq33, 0x08, 0x8e);
+	idt_set_gate(34,(unsigned int)irq34, 0x08, 0x8e);
+	idt_set_gate(35,(unsigned int)irq35, 0x08, 0x8e);
+	idt_set_gate(36,(unsigned int)irq36, 0x08, 0x8e);
+	idt_set_gate(37,(unsigned int)irq37, 0x08, 0x8e);
+	idt_set_gate(38,(unsigned int)irq38, 0x08, 0x8e);
+	idt_set_gate(39,(unsigned int)irq39, 0x08, 0x8e);
+	idt_set_gate(40,(unsigned int)irq40, 0x08, 0x8e);
+	idt_set_gate(41,(unsigned int)irq41, 0x08, 0x8e);
+	idt_set_gate(42,(unsigned int)irq42, 0x08, 0x8e);
+	idt_set_gate(43,(unsigned int)irq43, 0x08, 0x8e);
+	idt_set_gate(44,(unsigned int)irq44, 0x08, 0x8e);
+	idt_set_gate(45,(unsigned int)irq45, 0x08, 0x8e);
+	idt_set_gate(46,(unsigned int)irq46, 0x08, 0x8e);
+
 	unsigned int i;
-	for (i = 33; i < 255; i++)
+	for (i = 32; i < 255; i++)
 	{
 		idt_set_gate(i,(unsigned int) 0, 0x0, 0x0);
 	}
 	setIdt((unsigned int)&idt_ptr);
+	asm volatile("sti");
 }
 void idt_set_gate(unsigned char num, unsigned int base, unsigned short int sel, unsigned char flags)
 {

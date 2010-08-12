@@ -1,7 +1,7 @@
 all: kernel
 
-kernel: kernel.o loader.o desctbl.o isr.o
-	/usr/cross/i586-elf/bin/i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o ./bin/desctbl.o  ./bin/desctblas.o ./bin/interrupt.o ./bin/isr.o
+kernel: kernel.o loader.o desctbl.o isr.o irq.o
+	/usr/cross/i586-elf/bin/i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o ./bin/desctbl.o  ./bin/desctblas.o ./bin/interrupt.o ./bin/isr.o ./bin/irq.o
 	
 
 loader.o: ./src/loader.s
@@ -22,10 +22,19 @@ isr.o: ./src/isr.c ./src/interrupt.s
 		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/isr.o -c ./src/isr.c -Wall -Wextra \
 				    -nostdlib -nostartfiles -nodefaultlibs -g
 		./nasm -f elf -o ./bin/interrupt.o ./src/interrupt.s
+
+irq.o: ./src/irq.c 
+		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/irq.o -c ./src/irq.c -Wall -Wextra \
+					-nostdlib -nostartfiles -nodefaultlibs -g
+					
 clean: 
 	rm -f ./bin/*.o
 	rm -f ./bin/*.bin
-
+	
+recover:
+	sudo umount /media/img
+	sudo losetup -d /dev/loop1
+	
 install:
 	losetup /dev/loop1 bin/floppy.img
 	mount -t msdos /dev/loop1 /media/img
