@@ -6,3 +6,5 @@ typedef struct {
 }__attribute__ ((packed)) regs;
 
 regs *irq_handler(regs *r);
+void init_pic(void);
+void outb(short param1, char param2);

@@ -9,14 +9,14 @@ void kmain( void* mbd, unsigned int magic )
     char * boot_loader_name =(char*) ((long*)mbd)[16];
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
-    init_descriptor_tables();
-   write("phew that went well blablabla ");
-   write("let's try some interrupts");
-   write("inter 3 and 4");
-	while(1){
-		write("test");
-	}
+    init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!
+    /*write("phew that went well blablabla ");
+    write("let's try some interrupts");
+    write("inter 3 and 4");*/
+
+    asm volatile("sti");
+
    write("and nothing happens");
+ 
+   asm volatile("hlt");
 }
-
-

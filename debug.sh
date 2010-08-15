@@ -1,5 +1,8 @@
 #!/bin/bash
-qemu -s -S -fda bin/floppy.img -m 32 &
+qemu -s -S -d int -fda bin/floppy.img -m 32 &
 sleep 2
 xvncviewer localhost:5900 &
 gdb
+
+
+#0424250

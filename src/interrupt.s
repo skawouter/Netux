@@ -42,7 +42,7 @@ IRQ 43
 IRQ 44
 IRQ 45
 IRQ 46
-
+IRQ 47
 ISR_NOERRORCODE 0
 ISR_NOERRORCODE 1
 ISR_NOERRORCODE 2
@@ -81,32 +81,26 @@ isr_common:
 	call isr_handler
 	hlt 				; it's an error we're not going to return
 irq_common:
-	pushad
+    pushad
     push ds
     push es
     push fs
     push gs
-
-	cld			;reset direction flag to known state
-	;load kernel segments
     mov ax, 0x10
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
     
-	push esp
+    push esp
     call irq_handler
     mov esp, eax
-
-	
-	; pop from new stack
+    
     pop gs
     pop fs
     pop es
     pop ds
     popad
-    
-    add esp, 8		;delete error code and interrupt number
+    add esp, 8
     sti
     iret
