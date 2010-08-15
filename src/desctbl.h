@@ -1,5 +1,6 @@
 
 //declaration of all our interrupts (now til 31 wich are the processor interrupts)
+extern void dt_flush();
 extern void isr0();
 extern void isr1();
 extern void isr2();
@@ -48,6 +49,7 @@ extern void irq43();
 extern void irq44();
 extern void irq45();
 extern void irq46();
+extern void irq47();
 
 extern void setGdt(unsigned char[24],int);
 extern void setIdt(unsigned int);
@@ -76,4 +78,17 @@ struct idt_ptr_struct
 }  __attribute__((packed));
 typedef struct idt_ptr_struct idt_ptr_t;
 
+struct gdt_entry {
+    short limit_low;
+    short base_low;
+    char base_middle;
+    char access;
+    char granularity;
+    char base_high;
+} __attribute__((packed));
 
+struct gdt_ptr {
+    short limit;
+    int base;
+} __attribute__((packed));
+void gdt_set_gate(int num, int base, int limit, char access, char gran);

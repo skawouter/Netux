@@ -1,6 +1,6 @@
 #include "desctbl.h"
 #include "console.h"
-
+#include "irq.h"
 idt_entry_t idt_entries[256];
 idt_ptr_t idt_ptr;
 //initializing :)
@@ -56,7 +56,8 @@ void init_idt()
 	idt_set_gate(29,(unsigned int)isr29, 0x08, 0x8e);
 	idt_set_gate(30,(unsigned int)isr30, 0x08, 0x8e);
 	idt_set_gate(31,(unsigned int)isr31, 0x08, 0x8e);
-
+	init_pic();
+	write("after init pic");
 	//and now for the irqs
 	idt_set_gate(32,(unsigned int)irq32, 0x08, 0x8e);
 	idt_set_gate(33,(unsigned int)irq33, 0x08, 0x8e);
@@ -73,14 +74,16 @@ void init_idt()
 	idt_set_gate(44,(unsigned int)irq44, 0x08, 0x8e);
 	idt_set_gate(45,(unsigned int)irq45, 0x08, 0x8e);
 	idt_set_gate(46,(unsigned int)irq46, 0x08, 0x8e);
-
+	idt_set_gate(47,(unsigned int)irq47, 0x08, 0x8e);
+	
+	
 	unsigned int i;
-	for (i = 32; i < 255; i++)
+	for (i = 48; i < 255; i++)
 	{
 		idt_set_gate(i,(unsigned int) 0, 0x0, 0x0);
 	}
+	
 	setIdt((unsigned int)&idt_ptr);
-	asm volatile("sti");
 }
 void idt_set_gate(unsigned char num, unsigned int base, unsigned short int sel, unsigned char flags)
 {
@@ -93,41 +96,44 @@ void idt_set_gate(unsigned char num, unsigned int base, unsigned short int sel, 
    idt_entries[num].flags   = flags /* | 0x60 */;	
 }
 
+struct gdt_ptr gp;
+struct gdt_entry gdt[5];
 void init_gdt()
 {
-	unsigned char target[8*3]; 
-	//start with zero table
-	target[0]  = (0 & 0xff);
-	target[1] = (0 >>8) & 0xFF;
-	target[2] = 0 & 0Xff;
-	target[3] = (0 >> 8) & 0xFF;
-	target[4] = (0 >> 16) & 0xFF;
-	target[5] = 0;
-	target[6] = (0 >> 16) & 0xFF;
-	target[7] = (0 >> 24) & 0XFF;
-	//then the code table
-	target[8]  = (0xFFFFFFFF & 0xff);
-	target[9] = (0xFFFFFFFF >>8) & 0xFF;
-	target[10] = 0 & 0Xff;
-	target[11] = (0 >> 8) & 0xFF;
-	target[12] = (0 >> 16) & 0xFF;	
-	target[13] = 0x9A;
-	target[14] = (0xFFFFFFFF >> 16) & 0xFF;
-	target[15] = (0 >> 24) & 0XFF;
-	//then the data table
-	target[16]  = (0xFFFFFFFF & 0xff);
-	target[17] = (0xFFFFFFFF >>8) & 0xFF;
-	target[18] = 0 & 0Xff;
-	target[19] = (0 >> 8) & 0xFF;
-	target[20] = (0 >> 16) & 0xFF;	
-	target[21] = 0x92;
-	target[22] = (0xFFFFFFFF >> 16) & 0xFF;
-	target[23] = (0 >> 24) & 0XFF;	
-	write("writing our GDT table");
-	int i = 0;
-	for (i=0;i<24;i++)
-	{
-		writenumber((unsigned int)target[i]);
-	}
-	setGdt(target,sizeof(target));
+    
+    gp.limit = (sizeof(struct gdt_entry) * 6) - 1;
+    gp.base = (int) &gdt;
+
+    
+    gdt_set_gate(0, 0, 0, 0, 0);
+
+    // kernel code segment
+    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x10 | 0X0a | 0x80 , 0x40 | 0x80);
+
+    // kernel data segment
+    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x10 | 0X02 | 0x80 , 0x40 | 0x80);
+
+        //user segments
+        gdt_set_gate(3, 0, 0xFFFFFFFF, 0x10 | 0X0a | 0x80 , 0x40 | 0x80);
+        gdt_set_gate(4, 0, 0xFFFFFFFF, 0x10 | 0X02 | 0x80 , 0x40 | 0x80);
+        
+        
+    dt_flush();
+    
+}
+
+
+void gdt_set_gate(int num, int base, int limit, char access, char gran) {
+    /* Setup the descriptor base address */
+    gdt[num].base_low = (base & 0xFFFF);
+    gdt[num].base_middle = (base >> 16) & 0xFF;
+    gdt[num].base_high = (base >> 24) & 0xFF;
+
+    /* Setup the descriptor limits */
+    gdt[num].limit_low = (limit & 0xFFFF);
+    gdt[num].granularity = ((limit >> 16) & 0x0F);
+
+    /* Finally, set up the granularity and access flags */
+    gdt[num].granularity |= (gran & 0xF0);
+    gdt[num].access = access;
 }
