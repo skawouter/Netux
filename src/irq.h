@@ -7,4 +7,11 @@ typedef struct {
 
 regs *irq_handler(regs *r);
 void init_pic(void);
-void outb(short param1, char param2);
+static inline void __attribute__((always_inline)) outb(short _port, char _data) {
+	__asm__ volatile ("outb %0, %1" : : "a" (_data), "Nd" (_port));
+}
+static inline short __attribute__((always_inline)) inb(short _port) {
+	short result;
+	__asm__ volatile ("inb %1, %0" : "=a" (result) : "Nd" (_port));
+	return result;
+}

@@ -3,8 +3,7 @@
 
 regs *irq_handler(regs *r) {
     regs *new_regs = r;
-    write("received this irq:");
-	writenumber((unsigned int) r->int_no);
+   
 
     //handler = irq_routines[r->int_no - 32];
     //if (handler)
@@ -13,21 +12,28 @@ regs *irq_handler(regs *r) {
     if (r->int_no == 0x20) {  	// INT 0x20, IRQ0, timer interrupt
     
 	}
+	if (r->int_no == 0x21) {
+		short test;
+		test = inb(0x60);
+		int p;
+		p = 0x0000 | test;
+		writenumber(p);
+	}
+	
 	// this says to the pics that we're done with their interrupt
 	// EOI to slave controller
-    if (r->int_no >= 40)
+    if (r->int_no >= 0x28)
     {
-        asm volatile("outb %0,%1"::"a"(0xA0), "Nd" (0x20));
+		
+		outb(0x20,0x20);
+		outb(0x20,0xA0);
+	}else{		
+		outb(0x20,0x20);
 	}
     // EOI to master
-    asm volatile("outb %0,%1"::"a"(0x20), "Nd" (0x20));
+    
 
     return new_regs;
-}
-
-
-void outb(short param1, char param2){
- 	asm volatile("outb %0,%1" : : "a"(param2), "Nd" (param1));
 }
 
 

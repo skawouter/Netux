@@ -102,5 +102,4 @@ irq_common:
     pop ds
     popad
     add esp, 8
-    sti
     iret

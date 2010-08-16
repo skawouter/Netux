@@ -17,6 +17,12 @@ void kmain( void* mbd, unsigned int magic )
     asm volatile("sti");
 
    write("and nothing happens");
- 
-   asm volatile("hlt");
+   while(1)
+    { asm volatile("NOP");
+    asm volatile("NOP");
+    asm volatile("NOP");
+    asm volatile("NOP");
+    asm volatile("NOP");
+    asm volatile("NOP");
+    asm volatile("NOP");}s 
 }
