@@ -2,9 +2,12 @@
 unsigned int consmem[2][80*25*2];
 unsigned int position[2];
 unsigned int lastconsole = 0;
-
+char input[40];
+char inputenabled = 0;
+unsigned int currchar = 0;
 void writenumber(unsigned int inp)
 {
+	
 	int million = inp/1000000;
 	inp = inp - (million * 1000000);
 	int hundredthousand = inp/100000;
@@ -29,6 +32,7 @@ void writenumber(unsigned int inp)
 	getal[7] = 0;
 	write(getal);
 }
+
 void writetoconsole(char *writethis, unsigned int console)
 {
 	if ( position[console] == 0 ){
@@ -81,8 +85,43 @@ void clearconsole(unsigned int console){
 }
 void write(char *writethis)
 {
+	if (inputenabled==1){
+		position[lastconsole] = position[lastconsole] / 160;
+		position[lastconsole]  = (position[lastconsole]+1) * 160;		
+	}
 	writetoconsole(writethis,lastconsole);
 	position[lastconsole] = position[lastconsole] / 160;
 	position[lastconsole]  = (position[lastconsole]+1) * 160;
-
+	if (inputenabled==1){
+		writetoconsole("$>",lastconsole);
+	}
+}
+void startconsole(void)
+{
+	clearconsole(0);
+	write("it starts now :)");
+	writetoconsole("$>",0);
+	inputenabled=1;
+}
+void handleinput(char *chr)
+{
+	if (inputenabled==1)
+	{
+		writetoconsole(chr,0);
+		input[currchar] =  (char)*chr;
+		currchar += 1;
+		if (*chr == ENTERCHAR || currchar == 40)
+		{
+			currchar = 0;
+			executecommand();
+			int x ;
+			for (x = 0;x < 40; x++){
+				input[x] = (char)*" ";
+			}
+		}
+	}
+}
+void executecommand(void){
+	write("executing");
+	write(input);
 }

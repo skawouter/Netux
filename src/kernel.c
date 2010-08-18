@@ -10,13 +10,9 @@ void kmain( void* mbd, unsigned int magic )
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!
-    /*write("phew that went well blablabla ");
-    write("let's try some interrupts");
-    write("inter 3 and 4");*/
-
     asm volatile("sti");
-
-   write("and nothing happens");
+	startconsole();
+  // write("and nothing happens");
    while(1)
     { asm volatile("NOP");
     asm volatile("NOP");
@@ -24,5 +20,5 @@ void kmain( void* mbd, unsigned int magic )
     asm volatile("NOP");
     asm volatile("NOP");
     asm volatile("NOP");
-    asm volatile("NOP");}s 
+    asm volatile("NOP");}
 }
