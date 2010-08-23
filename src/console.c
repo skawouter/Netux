@@ -98,7 +98,7 @@ void write(char *writethis)
 }
 void startconsole(void)
 {
-	clearconsole(0);
+	//clearconsole(0);
 	write("it starts now :)");
 	writetoconsole("$>",0);
 	inputenabled=1;
@@ -107,8 +107,12 @@ void handleinput(char *chr)
 {
 	if (inputenabled==1)
 	{
-		writetoconsole(chr,0);
-		input[currchar] =  (char)*chr;
+		
+		if (*chr != ENTERCHAR)
+		{
+			writetoconsole(chr,0);
+			input[currchar] =  (char)*chr;
+		}
 		currchar += 1;
 		if (*chr == ENTERCHAR || currchar == 40)
 		{
@@ -116,12 +120,11 @@ void handleinput(char *chr)
 			executecommand();
 			int x ;
 			for (x = 0;x < 40; x++){
-				input[x] = (char)*" ";
+				input[x] = 0;
 			}
 		}
 	}
 }
 void executecommand(void){
-	write("executing");
 	write(input);
 }

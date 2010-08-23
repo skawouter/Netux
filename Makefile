@@ -1,7 +1,7 @@
 all: kernel
 
-kernel: kernel.o loader.o desctbl.o isr.o irq.o
-	/usr/cross/i586-elf/bin/i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o ./bin/desctbl.o  ./bin/desctblas.o ./bin/interrupt.o ./bin/isr.o ./bin/irq.o
+kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o
+	/usr/cross/i586-elf/bin/i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o ./bin/desctbl.o  ./bin/desctblas.o ./bin/interrupt.o ./bin/isr.o ./bin/irq.o ./bin/keyb.o
 	
 
 loader.o: ./src/loader.s
@@ -25,6 +25,9 @@ isr.o: ./src/isr.c ./src/interrupt.s
 
 irq.o: ./src/irq.c 
 		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/irq.o -c ./src/irq.c -Wall -Wextra \
+					-nostdlib -nostartfiles -nodefaultlibs -g
+keyb.o: ./src/keyb.c
+		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/keyb.o -c ./src/keyb.c -Wall -Wextra \
 					-nostdlib -nostartfiles -nodefaultlibs -g
 					
 clean: 

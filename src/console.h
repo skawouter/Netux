@@ -1,4 +1,4 @@
-#define ENTERCHAR 0x32
+#define ENTERCHAR 1
 void writetoconsole(char *writethis, unsigned int console);
 void refreshconsole(unsigned int console);
 void clearconsole(unsigned int console);

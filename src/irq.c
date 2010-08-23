@@ -1,6 +1,6 @@
 #include "console.h"
 #include "irq.h"
-
+#include "keyb.h"
 regs *irq_handler(regs *r) {
     regs *new_regs = r;
    
@@ -15,9 +15,7 @@ regs *irq_handler(regs *r) {
 	if (r->int_no == 0x21) {
 		short test;
 		test = inb(0x60);
-		int p;
-		p = 0x0000 | test;
-		writenumber(p);
+		keyb_handle(test);
 	}
 	
 	// this says to the pics that we're done with their interrupt
