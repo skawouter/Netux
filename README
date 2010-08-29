@@ -1,5 +1,9 @@
-Right now this thing boots and writes "testerder" to the screen.
-It's my first go on an OS :).
+FEATURES
+--------
+Initialize memory
+intializes irq/isrs
+keyboard input works
+minimal(very minimal) console works
 
 
 TO USE IT
@@ -7,7 +11,7 @@ TO USE IT
 use virtualbox or vmware or whatever virtual machine thingy you want to use
 and use the bin/floppy.img as floppy disk.
 
-You can also write it to an actual floppy :| an boot from it
+You can also write it to an actual floppy :| and boot from it
 or you can convert it to iso an burn it on a cd and boot from that
 
 
