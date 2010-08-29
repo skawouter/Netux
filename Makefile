@@ -1,53 +1,54 @@
 CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -g
 NASMFLAGS =  -f elf
-CC = $(CC)
+CC = /usr/cross/i586-elf/bin/i586-elf-gcc
 AS = /usr/cross/i586-elf/bin/i586-elf-as
 NASM = ./nasm
-LD = /usr/cross/i586-elf/bin/i586-elf-ld 
+LD = /usr/cross/i586-elf/bin/i586-elf-ld
+BIN = ./bin/
 all: kernel
 
 kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o
-	$(LD) -T ./src/link.ld -o ./bin/kernel.bin $(.SOURCES)
+	$(LD) -T ./src/link.ld -o  $(BIN)kernel.bin $(BIN)kernel.o $(BIN)loader.o $(BIN)desctbl.o $(BIN)isr.o $(BIN)irq.o $(BIN)keyb.o $(BIN)console.o $(BIN)desctblas.o $(BIN)interrupt.o
 	
 
 loader.o: ./src/loader/loader.s
-	$(AS) -o $(.TARGET) $(.SOURCE)
+	$(AS) -o $(BIN)loader.o ./src/loader/loader.s
 
 kernel.o: ./src/kernel.c
-	 $(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+	 $(CC) -o $(BIN)kernel.o -c ./src/kernel.c $(CFLAGS)
 
 console.o: ./src/devices/console.c
-	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+	$(CC) -o $(BIN)console.o -c ./src/devices/console.c $(CFLAGS)
 
 desctbl.o: ./src/init/desctbl.c 
-	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+	$(CC) -o $(BIN)desctbl.o -c ./src/init/desctbl.c $(CFLAGS)
 
 desctblas.o: ./src/init/desctbl.s
-	$(NASM) $(NASMFLAGS) -o $(.TARGET)  $(.SOURCE)
+	$(NASM) $(NASMFLAGS) -o $(BIN)desctblas.o  ./src/init/desctbl.s
 
-interrupt.o: ./src/initinterrupt.s
-	$(NASM) $(NASMFLAGS) -o $(.TARGET) $(.SOURCE)
+interrupt.o: ./src/init/interrupt.s
+	$(NASM) $(NASMFLAGS) -o $(BIN)interrupt.o ./src/init/interrupt.s
 
 isr.o: ./src/init/isr.c 
-	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+	$(CC) -o $(BIN)isr.o -c ./src/init/isr.c $(CFLAGS)
 		
 irq.o: ./src/init/irq.c 
-		$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+		$(CC) -o $(BIN)irq.o -c ./src/init/irq.c $(CFLAGS)
 
 keyb.o: ./src/devices/keyb.c
-		$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+		$(CC) -o $(BIN)keyb.o -c ./src/devices/keyb.c $(CFLAGS)
 					
 clean: 
-	rm -f ./bin/*.o
-	rm -f ./bin/*.bin
+	rm -f $(BIN)*.o
+	rm -f $(BIN)*.bin
 	
 recover:
 	sudo umount /media/img
 	sudo losetup -d /dev/loop1
 	
 install:
-	losetup /dev/loop1 bin/floppy.img
+	losetup /dev/loop1 $(BIN)floppy.img
 	mount -t msdos /dev/loop1 /media/img
-	cp ./bin/kernel.bin /media/img/kernel.bin
+	cp $(BIN)kernel.bin /media/img/kernel.bin
 	umount /media/img
 	losetup -d /dev/loop1

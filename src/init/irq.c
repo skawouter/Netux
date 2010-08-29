@@ -1,6 +1,6 @@
-#include "console.h"
-#include "irq.h"
-#include "keyb.h"
+#include "../include/console.h"
+#include "../include/irq.h"
+#include "../include/keyb.h"
 regs *irq_handler(regs *r) {
     regs *new_regs = r;
    

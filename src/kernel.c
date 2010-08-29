@@ -1,5 +1,6 @@
-#include "console.h"
-#include "desctbl.h"
+#include "./include/console.h"
+#include "./include/desctbl.h"
+
 void kmain( void* mbd, unsigned int magic )
 {
    if ( magic != 0x2BADB002 )

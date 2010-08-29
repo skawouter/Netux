@@ -1,4 +1,4 @@
-#include "console.h"
+#include "../include/console.h"
 unsigned int consmem[2][80*25*2];
 unsigned int position[2];
 unsigned int lastconsole = 0;

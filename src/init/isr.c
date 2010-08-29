@@ -1,5 +1,5 @@
-#include "console.h"
-#include "isr.h"
+#include "../include/console.h"
+#include "../include/isr.h"
 
 void isr_handler(registers_t regs)
 {

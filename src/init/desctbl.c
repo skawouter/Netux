@@ -1,6 +1,6 @@
-#include "desctbl.h"
-#include "console.h"
-#include "irq.h"
+#include "../include/desctbl.h"
+#include "../include/console.h"
+#include "../include/irq.h"
 idt_entry_t idt_entries[256];
 idt_ptr_t idt_ptr;
 //initializing :)

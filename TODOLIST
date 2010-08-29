@@ -1,8 +1,5 @@
-* make console scrollable
+
 * make maybe something fork like
-
-* probably don't have to run other processes only kernel procs
-
 
 TODO:
 	make console generic device.
