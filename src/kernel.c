@@ -14,11 +14,5 @@ void kmain( void* mbd, unsigned int magic )
 	startconsole();
   // write("and nothing happens");
    while(1)
-    { asm volatile("NOP");
-    asm volatile("NOP");
-    asm volatile("NOP");
-    asm volatile("NOP");
-    asm volatile("NOP");
-    asm volatile("NOP");
-    asm volatile("NOP");}
+    { asm volatile("NOP");}
 }

@@ -1,34 +1,41 @@
+CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -g
+NASMFLAGS =  -f elf
+CC = $(CC)
+AS = /usr/cross/i586-elf/bin/i586-elf-as
+NASM = ./nasm
+LD = /usr/cross/i586-elf/bin/i586-elf-ld 
 all: kernel
 
-kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o
-	/usr/cross/i586-elf/bin/i586-elf-ld -T ./src/link.ld -o ./bin/kernel.bin ./bin/loader.o ./bin/kernel.o ./bin/console.o ./bin/desctbl.o  ./bin/desctblas.o ./bin/interrupt.o ./bin/isr.o ./bin/irq.o ./bin/keyb.o
+kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o
+	$(LD) -T ./src/link.ld -o ./bin/kernel.bin $(.SOURCES)
 	
 
-loader.o: ./src/loader.s
-	/usr/cross/i586-elf/bin/i586-elf-as -o ./bin/loader.o ./src/loader.s
+loader.o: ./src/loader/loader.s
+	$(AS) -o $(.TARGET) $(.SOURCE)
 
 kernel.o: ./src/kernel.c
-	/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/kernel.o -c ./src/kernel.c -Wall -Wextra \
-				    -nostdlib -nostartfiles -nodefaultlibs -g
-	/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/console.o -c ./src/console.c -Wall -Wextra \
-				    -nostdlib -nostartfiles -nodefaultlibs -g
+	 $(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
 
-desctbl.o: ./src/desctbl.c ./src/desctbl.s
-	/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/desctbl.o -c ./src/desctbl.c -Wall -Wextra \
-				    -nostdlib -nostartfiles -nodefaultlibs -g
-	./nasm -f elf -o ./bin/desctblas.o ./src/desctbl.s
-	
-isr.o: ./src/isr.c ./src/interrupt.s
-		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/isr.o -c ./src/isr.c -Wall -Wextra \
-				    -nostdlib -nostartfiles -nodefaultlibs -g
-		./nasm -f elf -o ./bin/interrupt.o ./src/interrupt.s
+console.o: ./src/devices/console.c
+	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
 
-irq.o: ./src/irq.c 
-		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/irq.o -c ./src/irq.c -Wall -Wextra \
-					-nostdlib -nostartfiles -nodefaultlibs -g
-keyb.o: ./src/keyb.c
-		/usr/cross/i586-elf/bin/i586-elf-gcc -o ./bin/keyb.o -c ./src/keyb.c -Wall -Wextra \
-					-nostdlib -nostartfiles -nodefaultlibs -g
+desctbl.o: ./src/init/desctbl.c 
+	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+
+desctblas.o: ./src/init/desctbl.s
+	$(NASM) $(NASMFLAGS) -o $(.TARGET)  $(.SOURCE)
+
+interrupt.o: ./src/initinterrupt.s
+	$(NASM) $(NASMFLAGS) -o $(.TARGET) $(.SOURCE)
+
+isr.o: ./src/init/isr.c 
+	$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+		
+irq.o: ./src/init/irq.c 
+		$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
+
+keyb.o: ./src/devices/keyb.c
+		$(CC) -o $(.TARGET) -c $(.SOURCE) $(CFLAGS)
 					
 clean: 
 	rm -f ./bin/*.o

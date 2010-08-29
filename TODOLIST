@@ -3,14 +3,16 @@
 
 * probably don't have to run other processes only kernel procs
 
-*keyboard mapping/interrupts
---Setup GDT (global description table)
---setup IDT (interrupt description table)
---remap PIC
---write interrupt handlers (check this not sure about how to write them to specific location)
---map keyboard
 
-*or just handling interrupts for that matter
-
-*driver for generic network card
-...
+TODO:
+	make console generic device.
+	make keyboard generic device.
+	enumerate pci devices and create them.
+	allow assignment of irq to device
+	allow enabling/disabling of irq
+	kernel task switching (background processing of interrupts)
+	
+	paging for user space processes
+	user space <=> kernel space
+	user space task switching
+	
