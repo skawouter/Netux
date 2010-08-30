@@ -1,8 +1,9 @@
 typedef struct {
-	char[32] type;
-	char[32] name;
+	unsigned int type;
+	unsigned int name;
 	char number;
 	char minornumber;
 	unsigned int open, close, write,read;
 } thisdev;
 
+void init_devices(void);

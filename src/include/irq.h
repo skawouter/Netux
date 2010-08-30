@@ -15,3 +15,12 @@ static inline short __attribute__((always_inline)) inb(short _port) {
 	__asm__ volatile ("inb %1, %0" : "=a" (result) : "Nd" (_port));
 	return result;
 }
+
+static inline void __attribute__((always_inline)) outl(short _port, unsigned long _data) {
+	__asm__ volatile ("outl %0, %1" : : "a" (_data), "Nd" (_port));
+}
+static inline short __attribute__((always_inline)) inl(short _port) {
+	unsigned long result;
+	__asm__ volatile ("inl %1, %0" : "=a" (result) : "Nd" (_port));
+	return result;
+}

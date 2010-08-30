@@ -7,9 +7,11 @@ LD = /usr/cross/i586-elf/bin/i586-elf-ld
 BIN = ./bin/
 all: kernel
 
-kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o
-	$(LD) -T ./src/link.ld -o  $(BIN)kernel.bin $(BIN)kernel.o $(BIN)loader.o $(BIN)desctbl.o $(BIN)isr.o $(BIN)irq.o $(BIN)keyb.o $(BIN)console.o $(BIN)desctblas.o $(BIN)interrupt.o
+kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o devices.o pci.o
+	$(LD) -T ./src/link.ld -o  $(BIN)kernel.bin $(BIN)kernel.o $(BIN)loader.o $(BIN)desctbl.o $(BIN)isr.o $(BIN)irq.o $(BIN)keyb.o $(BIN)console.o $(BIN)desctblas.o $(BIN)interrupt.o $(BIN)devices.o $(BIN)pci.o
 	
+pci.o: ./src/devices/pci.c
+	$(CC) -o $(BIN)pci.o  -c ./src/devices/pci.c $(CFLAGS)
 
 loader.o: ./src/loader/loader.s
 	$(AS) -o $(BIN)loader.o ./src/loader/loader.s
@@ -37,7 +39,8 @@ irq.o: ./src/init/irq.c
 
 keyb.o: ./src/devices/keyb.c
 		$(CC) -o $(BIN)keyb.o -c ./src/devices/keyb.c $(CFLAGS)
-					
+devices.o: ./src/devices/device.c
+		$(CC) -o $(BIN)devices.o -c ./src/devices/device.c $(CFLAGS)				
 clean: 
 	rm -f $(BIN)*.o
 	rm -f $(BIN)*.bin

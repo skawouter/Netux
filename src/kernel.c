@@ -1,5 +1,6 @@
 #include "./include/console.h"
 #include "./include/desctbl.h"
+#include "./include/device.h"
 
 void kmain( void* mbd, unsigned int magic )
 {
