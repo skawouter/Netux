@@ -9,3 +9,5 @@ void writenumber(unsigned int inp);
 void executecommand(void);
 void startconsole(void);
 void handleinput(char *chr);
+void writehex(unsigned int inp);
+char convertnumtochar(unsigned char inp);

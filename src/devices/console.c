@@ -7,7 +7,12 @@ char inputenabled = 0;
 unsigned int currchar = 0;
 void writenumber(unsigned int inp)
 {
-	
+	int trillion = inp/1000000000;
+	inp = inp - (trillion * 1000000000);
+	int hundmillion = inp/100000000;
+	inp = inp - (hundmillion * 100000000);
+	int tenmillion = inp/10000000;
+	inp = inp - (tenmillion * 10000000);
 	int million = inp/1000000;
 	inp = inp - (million * 1000000);
 	int hundredthousand = inp/100000;
@@ -21,18 +26,65 @@ void writenumber(unsigned int inp)
 	int ten = inp/10;
 	inp = inp - (10*ten);
 	int zero = inp;
-	char getal[8];
-	getal[0] = million +48;
-	getal[1] = hundredthousand +48;
-	getal[2] = tenthousand +48;
-	getal[3] = thousand +48;
-	getal[4] = hunderd + 48;
-	getal[5] = ten + 48;
-	getal[6] = zero + 48;
-	getal[7] = 0;
+	char getal[11];
+	getal[0] = trillion +48;
+	getal[1] = hundmillion +48;
+	getal[2] = tenmillion+48;
+	getal[3] = million + 48;
+	getal[4] = hundredthousand +48;
+	getal[5] = tenthousand +48;
+	getal[6] = thousand +48;
+	getal[7] = hunderd + 48;
+	getal[8] = ten + 48;
+	getal[9] = zero + 48;
+	getal[10] = 0;
 	write(getal);
 }
 
+void writehex(unsigned int inp)
+{
+	char getal[12];
+	int overschot[10];
+	int a=0;
+	for (a=10;a>0;a--)
+	{
+		overschot[a] = inp / (16*a);
+		inp -= overschot[a] * (16*a);
+		getal[a] = convertnumtochar(overschot[a]);
+		if (getal[a]==0){
+			getal[a]=48;
+	}	
+	getal[11]=0;
+	write(getal);
+}
+char convertnumtochar(unsigned char inp)
+{
+	if (inp > 15)
+		return 0;
+	switch(inp){
+		case 10:
+			return 'A';
+			break;
+		case 11:
+			return 'B';
+			break;			
+		case 12:
+			return 'C';
+			break;			
+		case 13:
+			return 'D';
+			break;			
+		case 14:
+			return 'E';
+			break;			
+		case 15:
+			return 'F';
+			break;			
+		default:
+			return inp+48;
+			break;			
+	}
+}
 void writetoconsole(char *writethis, unsigned int console)
 {
 	if ( position[console] == 0 ){

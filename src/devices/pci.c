@@ -12,9 +12,10 @@ void init_pci(void){
 			inp  = pci_readword(x,y,0,0);
 			if (inp < 65535){
 				write("found one");
-				dev = pci_readword(x,y,0,4);
 				writenumber(inp);
-				writenumber(dev);
+				dev = pci_readword(x,y,0,2);
+				writehex(0X0000FFFF  & dev);
+				
 			}
 					
 		}
@@ -32,11 +33,11 @@ unsigned long pci_readword(unsigned short bus,unsigned short slot,unsigned short
     unsigned long tmp = 0;
  
     /* create configuration address as per Figure 1 */
-    address = (unsigned long)((lbus << 16) | (lslot << 11) |
-              (lfunc << 8) | (offset << 2) | ((unsigned int)0x80000000));
+    address = (unsigned int)((lbus << 16) | (lslot << 11) |
+              (lfunc << 8) | (offset) | ((unsigned int)0x80000000));
     /* write out the address */
     outl (0xCF8, address);
     /* read in the data */
-    tmp = (unsigned long)(inl (0x0CFC) );
+    tmp = (unsigned int)(inl (0xCFC) );
     return (tmp);
    }
