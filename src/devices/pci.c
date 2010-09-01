@@ -14,8 +14,8 @@ void init_pci(void){
 				write("found one");
 				writenumber(inp);
 				dev = pci_readword(x,y,0,2);
-				writehex(0X0000FFFF  & dev);
-				
+				writehex(dev & 0x0000FFFF);
+				writenumber(dev & 0x0000FFFF);
 			}
 					
 		}

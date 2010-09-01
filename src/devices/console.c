@@ -40,24 +40,22 @@ void writenumber(unsigned int inp)
 	getal[10] = 0;
 	write(getal);
 }
-
-void writehex(unsigned int inp)
-{
-	char getal[12];
-	int overschot[10];
-	int a=0;
-	for (a=10;a>0;a--)
-	{
-		overschot[a] = inp / (16*a);
-		inp -= overschot[a] * (16*a);
-		getal[a] = convertnumtochar(overschot[a]);
-		if (getal[a]==0){
-			getal[a]=48;
-	}	
-	getal[11]=0;
-	write(getal);
+void writehex(unsigned int inp){
+	char output[24];
+	unsigned int over[24];
+	int a = 0;
+	int b = 0;
+	for (a=22;a>0;a--){
+		over[a] = inp / (16*a);
+		inp-= over[a] * (16*a);
+		output[b] = convertnumtochar(over[a]);	
+		b++;
+	}
+	output[22]= convertnumtochar(inp);
+	output[23] = 0;
+	write(output);
 }
-char convertnumtochar(unsigned char inp)
+char convertnumtochar(unsigned int inp)
 {
 	if (inp > 15)
 		return 0;
