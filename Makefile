@@ -7,8 +7,8 @@ LD = /usr/cross/i586-elf/bin/i586-elf-ld
 BIN = ./bin/
 all: kernel
 
-kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o devices.o pci.o
-	$(LD) -T ./src/link.ld -o  $(BIN)kernel.bin $(BIN)kernel.o $(BIN)loader.o $(BIN)desctbl.o $(BIN)isr.o $(BIN)irq.o $(BIN)keyb.o $(BIN)console.o $(BIN)desctblas.o $(BIN)interrupt.o $(BIN)devices.o $(BIN)pci.o
+kernel: kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o devices.o pci.o math.o
+	$(LD) -T ./src/link.ld -o  $(BIN)kernel.bin $(BIN)kernel.o $(BIN)loader.o $(BIN)desctbl.o $(BIN)isr.o $(BIN)irq.o $(BIN)keyb.o $(BIN)console.o $(BIN)desctblas.o $(BIN)interrupt.o $(BIN)devices.o $(BIN)pci.o $(BIN)math.o
 	
 pci.o: ./src/devices/pci.c
 	$(CC) -o $(BIN)pci.o  -c ./src/devices/pci.c $(CFLAGS)
@@ -18,6 +18,9 @@ loader.o: ./src/loader/loader.s
 
 kernel.o: ./src/kernel.c
 	 $(CC) -o $(BIN)kernel.o -c ./src/kernel.c $(CFLAGS)
+
+math.o: ./src/math.c
+	$(CC) -o $(BIN)math.o -c ./src/math.c $(CFLAGS)
 
 console.o: ./src/devices/console.c
 	$(CC) -o $(BIN)console.o -c ./src/devices/console.c $(CFLAGS)

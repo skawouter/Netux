@@ -46,8 +46,8 @@ void writehex(unsigned int inp){
 	int a = 0;
 	int b = 0;
 	for (a=22;a>0;a--){
-		over[a] = inp / (16*a);
-		inp-= over[a] * (16*a);
+		over[a] = inp / expon(16,a);
+		inp-= over[a] * expon(16,a);
 		output[b] = convertnumtochar(over[a]);	
 		b++;
 	}
