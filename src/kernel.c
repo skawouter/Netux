@@ -12,12 +12,15 @@ void kmain( void* mbd, unsigned int magic )
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!
+    write("write hexes");
+
     writehex(15);
-    writehex(31);
+    /*  writehex(31);
     writehex(40);
-    init_devices();
+    init_devices();*/
+    startconsole();
     asm volatile("sti");
-	startconsole();
+	
   // write("and nothing happens");
    while(1)
     { asm volatile("NOP");}

@@ -1,4 +1,6 @@
 #include "../include/console.h"
+#include "../include/math.h"
+
 unsigned int consmem[2][80*25*2];
 unsigned int position[2];
 unsigned int lastconsole = 0;
@@ -46,8 +48,10 @@ void writehex(unsigned int inp){
 	int a = 0;
 	int b = 0;
 	for (a=22;a>0;a--){
-		over[a] = inp / expon(16,a);
-		inp-= over[a] * expon(16,a);
+		if (expon(16,a) != 0){
+			over[a] = inp / expon(16,a);
+			inp-= over[a] * expon(16,a);
+		}
 		output[b] = convertnumtochar(over[a]);	
 		b++;
 	}
