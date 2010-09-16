@@ -25,3 +25,14 @@ void kmain( void* mbd, unsigned int magic )
    while(1)
     { asm volatile("NOP");}
 }
+/* MOVE THIS TO MATH.C */
+long long unsigned int doexpon(short number, short expon){
+        short orignumber;
+        long long unsigned int result = number;
+        orignumber = number;
+        while(expon > 0){
+                result = result * orignumber;
+                expon--;
+        }
+        return result;
+}
