@@ -41,19 +41,15 @@ void writenumber(unsigned int inp)
 	write(getal);
 }
 void writehex(unsigned int inp){
-	char output[24];
-	unsigned int over[24];
-	int a = 0;
-	int b = 0;
-	for (a=22;a>0;a--){
-		over[a] = inp / expon(16,a);
-		inp-= over[a] * expon(16,a);
-		output[b] = convertnumtochar(over[a]);	
-		b++;
-	}
-	output[22]= convertnumtochar(inp);
-	output[23] = 0;
-	write(output);
+        short x;
+        unsigned int temp;
+        char output[12];
+        for (x=10;x>-1;x--){
+                temp = inp / doexpon(16,x);
+                inp -= temp * doexpon(16,x);
+                output[10-x] = convertnumtochar(temp);
+        }
+        output[11] = convertnumtochar(inp);
 }
 char convertnumtochar(unsigned int inp)
 {
