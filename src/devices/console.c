@@ -43,13 +43,15 @@ void writenumber(unsigned int inp)
 void writehex(unsigned int inp){
         short x;
         unsigned int temp;
-        char output[12];
+        char output[13];
         for (x=10;x>-1;x--){
                 temp = inp / doexpon(16,x);
                 inp -= temp * doexpon(16,x);
                 output[10-x] = convertnumtochar(temp);
         }
         output[11] = convertnumtochar(inp);
+        output[12] = 0;
+        write(output);
 }
 char convertnumtochar(unsigned int inp)
 {
