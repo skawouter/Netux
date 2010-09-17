@@ -13,11 +13,10 @@ void kmain( void* mbd, unsigned int magic )
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!
     write("write hexes");
-
-    writehex(15);
-    /*  writehex(31);
+	writehex(10);
+    writehex(31);
     writehex(40);
-    init_devices();*/
+    init_devices();
     startconsole();
     asm volatile("sti");
 	
@@ -26,13 +25,3 @@ void kmain( void* mbd, unsigned int magic )
     { asm volatile("NOP");}
 }
 /* MOVE THIS TO MATH.C */
-long long unsigned int doexpon(short number, short expon){
-        short orignumber;
-        long long unsigned int result = number;
-        orignumber = number;
-        while(expon > 0){
-                result = result * orignumber;
-                expon--;
-        }
-        return result;
-}

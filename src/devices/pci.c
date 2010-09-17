@@ -12,10 +12,8 @@ void init_pci(void){
 			inp  = pci_readword(x,y,0,0);
 			if (inp < 65535){
 				write("found one");
-				writenumber(inp);
 				dev = pci_readword(x,y,0,2);
 				writehex(dev & 0x0000FFFF);
-				writenumber(dev & 0x0000FFFF);
 			}
 					
 		}

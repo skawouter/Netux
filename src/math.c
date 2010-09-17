@@ -12,3 +12,13 @@ unsigned int expon( int nor, int expo ){
 	}
 	return returnvalue;
 }
+long unsigned int doexpon(short number, short expon){
+        short orignumber;
+        long unsigned int result = number;
+        orignumber = number;
+        while(expon > 0){
+                result = result * orignumber;
+                expon--;
+        }
+        return result;
+}
