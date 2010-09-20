@@ -24,3 +24,11 @@ static inline short __attribute__((always_inline)) inl(short _port) {
 	__asm__ volatile ("inl %1, %0" : "=a" (result) : "Nd" (_port));
 	return result;
 }
+
+struct irq_struct{
+	char irq;
+	int (*functpoint)();
+};
+
+struct irq_struct irqlist[255];
+int register_irq(char irq, int (*functpoint)());

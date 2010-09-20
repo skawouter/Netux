@@ -11,9 +11,17 @@ void init_pci(void){
 		for (y=0; y <16; y++){
 			inp  = pci_readword(x,y,0,0);
 			if (inp < 65535){
-				write("found one");
+				write("pci device detected");
 				dev = pci_readword(x,y,0,2);
-				writehex(dev & 0x0000FFFF);
+				switch (dev){
+					case 0xFFFF8139:
+						write("found 8139 network card");
+						writetoconsole("vendor: ",0);
+						writehex(inp & 0X0000FFFF);
+						break;
+					default:
+						write("unknown device");
+				}
 			}
 					
 		}

@@ -1,1 +1,1 @@
-char keyb_handle(short inp);
+int keyb_handle();

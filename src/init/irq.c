@@ -4,22 +4,10 @@
 regs *irq_handler(regs *r) {
     regs *new_regs = r;
    
-
-    //handler = irq_routines[r->int_no - 32];
-    //if (handler)
-    //    handler(r);
-        
-    if (r->int_no == 0x20) {  	// INT 0x20, IRQ0, timer interrupt
-    
+	//handle irqs if they are registered :)
+    if (irqlist[r->int_no].irq != 0){
+		(*irqlist[r->int_no].functpoint)();
 	}
-	if (r->int_no == 0x21) {
-		short test;
-		test = inb(0x60);
-		keyb_handle(test);
-	}
-	
-	// this says to the pics that we're done with their interrupt
-	// EOI to slave controller
     if (r->int_no >= 0x28)
     {
 		
@@ -34,7 +22,19 @@ regs *irq_handler(regs *r) {
     return new_regs;
 }
 
-
+int register_irq(char irq, int (*functpoint) ())
+{
+	struct irq_struct irqcurr;
+	irqcurr.irq = irq;
+	irqcurr.functpoint = functpoint;
+	irqlist[irq] = irqcurr;
+	return 0;
+}
+void unregister_irq(char irq)
+{
+	irqlist[irq].functpoint = 0;
+	irqlist[irq].irq = 0;
+}
 void init_pic(void){
 	// init master PIC
 	outb(0x20, 0x11); 
