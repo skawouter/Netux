@@ -15,12 +15,10 @@
 # reserve initial kernel stack space
 .set STACKSIZE, 0x4000          # that is, 16k.
 .comm stack, STACKSIZE, 32      # reserve 16k stack on a quadword boundary
-
 loader:
    mov   $(stack + STACKSIZE), %esp # set up the stack
    push  %eax                       # Multiboot magic number
    push  %ebx                       # Multiboot data structure
-
    call  kmain            # call kernel proper
 
    cli

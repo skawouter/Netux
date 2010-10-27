@@ -3,6 +3,7 @@
 #include "./include/device.h"
 #include "./include/irq.h"
 #include "./include/keyb.h"
+#include "./include/mm.h"
 
 int timertest(){
 	write("timer received");
@@ -23,11 +24,12 @@ void kmain( void* mbd, unsigned int magic )
     register_irq(0x21,&keyb_handle);
     register_irq(0x20,&timertest);
     init_devices();
+    init_mm();
     startconsole();
     asm volatile("sti");
 	
   // write("and nothing happens");
-	unregister_irq(0x20);
+    unregister_irq(0x20);
    while(1)
     { asm volatile("NOP");}
 }

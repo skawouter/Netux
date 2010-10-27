@@ -1,12 +1,13 @@
 #include "../include/pci.h"
 #include "../include/console.h"
 #include "../include/irq.h"
-
+#include "../include/device.h"
 void init_pci(void){
 	write("do pci stuff");
 	short x,y;
 	unsigned long inp;
 	unsigned long dev;
+	devstruct detected;
 	for (x=0; x < 128; x++){
 		for (y=0; y <16; y++){
 			inp  = pci_readword(x,y,0,0);
@@ -28,6 +29,7 @@ void init_pci(void){
 		
 	}
 }
+
 
 
 unsigned long pci_readword(unsigned short bus,unsigned short slot,unsigned short function,unsigned short offset){

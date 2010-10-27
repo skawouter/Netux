@@ -3,7 +3,7 @@ typedef struct {
 	unsigned int name;
 	char number;
 	char minornumber;
-	unsigned int open, close, write,read;
-} thisdev;
+	unsigned int (*open), (*close), (*write),(*read);
+} devstruct;
 
 void init_devices(void);
