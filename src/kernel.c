@@ -30,6 +30,7 @@ void kmain( void* mbd, unsigned int magic )
 	
   // write("and nothing happens");
     unregister_irq(0x20);
+	unregister_irq(0x20);
    while(1)
     { asm volatile("NOP");}
 }
