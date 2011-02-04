@@ -25,12 +25,11 @@ void kmain( void* mbd, unsigned int magic )
     register_irq(0x20,&timertest);
     init_devices();
     init_mm();
-    startconsole();
+    //startconsole();
     asm volatile("sti");
-	
+
   // write("and nothing happens");
     unregister_irq(0x20);
-	unregister_irq(0x20);
    while(1)
     { asm volatile("NOP");}
 }
