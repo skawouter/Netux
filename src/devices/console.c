@@ -160,10 +160,22 @@ void handleinput(char *chr)
 		
 		if (*chr != ENTERCHAR)
 		{
-			writetoconsole(chr,0);
-			input[currchar] =  (char)*chr;
+			if (*chr == BACKSPACECHAR)
+			{
+				position[0]-=2;
+				chr[0]=' ';
+				writetoconsole(chr,0);
+                executecommand();
+				input[currchar - 1] = ' ';
+                executecommand();
+				currchar-=1;
+				position[0]-=2;
+			}else{
+				writetoconsole(chr,0);
+				input[currchar] =  (char)*chr;
+				currchar += 1;
+			}
 		}
-		currchar += 1;
 		if (*chr == ENTERCHAR || currchar == 40)
 		{
 			currchar = 0;

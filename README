@@ -41,5 +41,8 @@ gpg -a --export 0x2F90DE4A | sudo apt-key add -
 and finally install the cross compiler (you may have to set your $PATH right so it 
 includes all the i586-elf... files)
 
+UPDATE: the libmpfr1ldbl (which is needed for i586..) package  is no longer present in the debian repositories so it will soon vanish,
+you can still download it for squeeze though.
+
 Enjoy!
 

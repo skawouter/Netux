@@ -1,4 +1,5 @@
 #define ENTERCHAR 1
+#define BACKSPACECHAR 8
 void writetoconsole(char *writethis, unsigned int console);
 void refreshconsole(unsigned int console);
 void clearconsole(unsigned int console);
