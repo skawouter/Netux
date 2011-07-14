@@ -135,7 +135,7 @@ void clearconsole(unsigned int console){
 }
 void write(char *writethis)
 {
-	if (inputenabled==1){
+	if (inputenabled==1 && writethis[0] != 0){
 		position[lastconsole] = position[lastconsole] / 160;
 		position[lastconsole]  = (position[lastconsole]+1) * 160;		
 	}
@@ -153,34 +153,37 @@ void startconsole(void)
 	writetoconsole("$>",0);
 	inputenabled=1;
 }
+int called = 0;
 void handleinput(char *chr)
 {
 	if (inputenabled==1)
 	{
-		
 		if (*chr != ENTERCHAR)
 		{
 			if (*chr == BACKSPACECHAR)
 			{
+                called = 1;
 				position[0]-=2;
 				chr[0]=' ';
 				writetoconsole(chr,0);
-                executecommand();
-				input[currchar - 1] = ' ';
-                executecommand();
-				currchar-=1;
+                currchar -= 1;
+				input[currchar] = ' ';
 				position[0]-=2;
 			}else{
+                if ( called == 1 ){
+                    called = 0;
+                }else{
 				writetoconsole(chr,0);
 				input[currchar] =  (char)*chr;
 				currchar += 1;
+                }
 			}
 		}
 		if (*chr == ENTERCHAR || currchar == 40)
 		{
-			currchar = 0;
-			executecommand();
 			int x ;
+            executecommand();
+			currchar = 0;
 			for (x = 0;x < 40; x++){
 				input[x] = 0;
 			}
