@@ -7,7 +7,7 @@ void init_pci(void){
 	short x,y;
 	unsigned long inp;
 	unsigned long dev;
-	devstruct detected;
+//devstruct detected;
 	for (x=0; x < 128; x++){
 		for (y=0; y <16; y++){
 			inp  = pci_readword(x,y,0,0);

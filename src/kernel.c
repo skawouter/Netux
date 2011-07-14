@@ -17,6 +17,7 @@ void kmain( void* mbd, unsigned int magic )
       write("the bootloader made a booboo :(");
    }
     char * boot_loader_name =(char*) ((long*)mbd)[16];
+    write(boot_loader_name);
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!

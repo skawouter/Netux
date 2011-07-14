@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -g
+CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -Wno-char-subscripts -g
 NASMFLAGS =  -f elf
 CC = /usr/cross/i586-elf/bin/i586-elf-gcc
 AS = /usr/cross/i586-elf/bin/i586-elf-as

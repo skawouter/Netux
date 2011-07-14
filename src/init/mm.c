@@ -31,5 +31,5 @@ void init_mm(){
     write_cr0(read_cr0 | 0x80000000);
 }
 void * kalloc(unsigned int size){
-
+    return 0;
 }
