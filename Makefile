@@ -1,9 +1,9 @@
-CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -g
+CFLAGS = -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -g -mtune=i386 -march=i386 -m32
 NASMFLAGS = -f elf
-CC = /usr/cross/i586-elf/bin/i586-elf-gcc
-AS = /usr/cross/i586-elf/bin/i586-elf-as
-NASM = ./nasm
-LD = /usr/cross/i586-elf/bin/i586-elf-ld
+CC = gcc 
+NASM = nasm
+LD = ld
+LDFLAGS = -z nodefaultlibs -melf_i386
 BIN = ./bin/
 HEADER = ./src/include/
 DEVDIR = ./src/devices/
@@ -14,13 +14,13 @@ MODULES = kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o i
 all: kernel
 
 kernel: $(MODULES)
-	$(LD) -T ./src/link.ld -o $(BIN)kernel.bin $(MODULES:%=$(BIN)%)
+	$(LD) $(LDFLAGS) -T ./src/link.ld -o $(BIN)kernel.bin $(MODULES:%=$(BIN)%)
 
 pci.o: $(DEVDIR)pci.c
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
 
 loader.o: $(LOADDIR)loader.s
-	$(AS) -o $(BIN)$@ $?
+	$(NASM) $(NASMFLAGS) -o $(BIN)$@ $?
 
 kernel.o: $(SRCDIR)kernel.c
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)

@@ -2,5 +2,3 @@
 make clean
 make
 sudo make install
-killall gdb
-
