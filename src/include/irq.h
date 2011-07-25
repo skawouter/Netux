@@ -31,5 +31,5 @@ struct irq_struct{
 };
 
 struct irq_struct irqlist[255];
-int register_irq(char irq, int (*functpoint)());
-void unregister_irq(char irq); 
+int register_irq(unsigned char irq, int (*functpoint)());
+void unregister_irq(unsigned char irq); 

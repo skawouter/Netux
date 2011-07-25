@@ -5,8 +5,6 @@ TODO:
 	make console generic device.
 	make keyboard generic device.
 	enumerate pci devices and create them.
-	allow assignment of irq to device
-	allow enabling/disabling of irq
 	kernel task switching (background processing of interrupts)
 	
 	paging for user space processes

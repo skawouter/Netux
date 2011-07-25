@@ -21,14 +21,17 @@ void kmain( void* mbd, unsigned int magic )
     write("testing write to screen");
     write("going to setup GDT hold on to your boots :|");
     init_descriptor_tables(); // hah it also inits the isr and hw irq thingys!
-    write("write hexes");
+    write("register keyboard handle and time handle");
     register_irq(0x21,&keyb_handle);
     register_irq(0x20,&timertest);
+    write("init devices");
     init_devices();
+    write("init memory");
     init_mm();
+    write("start console");
     startconsole();
     asm volatile("sti");
-
+    write("just enabled irqs and unregister timer :)");
   // write("and nothing happens");
     unregister_irq(0x20);
    while(1)

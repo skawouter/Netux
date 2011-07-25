@@ -22,7 +22,7 @@ regs *irq_handler(regs *r) {
     return new_regs;
 }
 
-int register_irq(char irq, int (*functpoint) ())
+int register_irq(unsigned char irq, int (*functpoint) ())
 {
 	struct irq_struct irqcurr;
 	irqcurr.irq = irq;
@@ -30,7 +30,7 @@ int register_irq(char irq, int (*functpoint) ())
 	irqlist[irq] = irqcurr;
 	return 0;
 }
-void unregister_irq(char irq)
+void unregister_irq(unsigned char irq)
 {
 	irqlist[irq].functpoint = 0;
 	irqlist[irq].irq = 0;

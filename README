@@ -4,6 +4,7 @@ Initialize memory
 intializes irq/isrs
 keyboard input works
 minimal(very minimal) console works
+detection of RLT8139 pci card works
 
 
 TO USE IT
@@ -17,32 +18,11 @@ or you can convert it to iso an burn it on a cd and boot from that
 
 TO BUILD IT
 -----------
-Just run build.sh in the main directory and it should build (tested on linux MINT 8 64bit)
+Just run build.sh in the main directory and it should build (tested on debian testing)
 
 It generates a bin/floppy.img wich you can use in virtualbox(or vmware) to boot from.
 
-for the building process I use a seperate cross compile toolchain that builds to i586 wich you can install in ubuntu/mint
+the run.sh script runs a build image in Qemu
+the debug.sh script runs a build image in Qemu and attaches gdb as a debugger
 
-Installing the cross compile toolchain (thanks to http://www.pedigree-project.org/)
---------------------------------------
-
-first do
-sudo nano /etc/apt/sources.list
-
-add the following lines to the list
-#the first one was not working last time
-#deb http://www.pedigree-project.org/debian/ stable main    #Primary Mirror. Hosted by OrOS.
-deb http://www.tucs.org.au/~jscott4/debian/ stable main    #Primary Mirror. Hosted by University of Tasmania.
-
-then add the keys for the repo
-gpg --recv-keys 0x2F90DE4A
-gpg -a --export 0x2F90DE4A | sudo apt-key add -
-
-and finally install the cross compiler (you may have to set your $PATH right so it 
-includes all the i586-elf... files)
-
-UPDATE: the libmpfr1ldbl (which is needed for i586..) package  is no longer present in the debian repositories so it will soon vanish,
-you can still download it for squeeze though.
-
-Enjoy!
 
