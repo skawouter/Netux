@@ -35,6 +35,6 @@ void kmain( void* mbd, unsigned int magic )
   // write("and nothing happens");
     unregister_irq(0x20);
    while(1)
-    { asm volatile("NOP");}
+    { asm volatile("HLT");}
 }
 /* MOVE THIS TO MATH.C */
