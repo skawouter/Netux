@@ -7,7 +7,13 @@ regs *irq_handler(regs *r) {
 	//handle irqs if they are registered :)
     if (irqlist[r->int_no].irq != 0){
 		(*irqlist[r->int_no].functpoint)();
-	}
+	} else {
+        if (r->int_no != 0x21 && r->int_no != 0x20){
+            write("irq received but not registered");
+            writehex(r->int_no);
+        }
+        
+    }
     if (r->int_no >= 0x28)
     {
 

@@ -9,7 +9,10 @@ int timertest(){
 	write("timer received");
 	return 0;
 }
-
+void halt(){
+   while(1)
+    { asm volatile("HLT");}
+}
 void kmain( void* mbd, unsigned int magic )
 {
    if ( magic != 0x2BADB002 )
@@ -32,9 +35,8 @@ void kmain( void* mbd, unsigned int magic )
     startconsole();
     asm volatile("sti");
     write("just enabled irqs and unregister timer :)");
-  // write("and nothing happens");
+  // write("and nothing happens");*/
     unregister_irq(0x20);
-   while(1)
-    { asm volatile("HLT");}
+    halt();
 }
 /* MOVE THIS TO MATH.C */

@@ -10,6 +10,7 @@ void init_pci(void){
 	unsigned long dev;
     unsigned long temp;
     unsigned long iobase;
+    unsigned long inters;
 //devstruct detected;
 	for (x=0; x < 128; x++){
 		for (y=0; y <16; y++){
@@ -22,9 +23,20 @@ void init_pci(void){
                         write("realtek device found");
                         switch(dev){
                             case 0xFFFF8139: //device id RLT8139 network card
-                                for (t=8; t <= 14; t++){ 
+                                 //trying to find the erm interrupt as it were
+/*                                 for (t=0; t <= 32 ; t++){
+                                    inters = pci_readword(x,y,0,t);
+                                    if ( inters != 0 ){
+                                        writenumber(t);
+                                        writehex(inters);
+                                    }
+                                 }*/
+                                 
+
+                                 for (t=8; t <= 14; t++){ 
                                     //base addresses from 8 til 14
                                     iobase = pci_readword(x,y,0,t);
+                                                                       
                                     if ((iobase & 0x1) == 0x1){ 
                                         //iobase ends with 1
                                         iobase = iobase & 0XFFFFFFF0;
@@ -44,11 +56,25 @@ void init_pci(void){
                                         while(inb(iobase + 0x37) & 0x10){
                                             write("waiting for reset :)");
                                         }
+                                        write("setup receive buffer");
+                                        // setup receive buffer
+                                        char rx_buffer[8192 + 16];
+                                        outl(iobase + 0x30, (unsigned long) rx_buffer);
+                                        write("setup interrupt");
+                                        // setup interrupts for TOK and ROK
+                                        outb(iobase + 0x3C, 0x08 | 0x04 | 0x02 | 0x01);
+                                        // configure receiver buffer
+                                        // accept everything we have a ring buffer
+                                        // set to 1 for continuous buffer
+                                        write("configure buffer");
+                                        outl(iobase + 0x44, 0x0f );
+                                        
+                                        write("start everything");
+                                        outb(iobase + 0x37, 0x0C);
                                         write("done");
                                         break;
                                     }
                                 }
-                      //          write("8139 network card found");
                                break;
                             default:
                                 write("unknown card found");
