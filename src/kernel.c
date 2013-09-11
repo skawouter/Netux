@@ -29,6 +29,7 @@ void kmain( void* mbd, unsigned int magic )
     register_irq(0x20,&timertest);
     write("init devices");
     init_devices();
+    halt();
     write("init memory");
     init_mm();
     write("start console");

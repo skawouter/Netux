@@ -25,6 +25,15 @@ static inline short __attribute__((always_inline)) inl(short _port) {
 	return result;
 }
 
+static inline void __attribute__((always_inline)) outw(short _port, unsigned long _data) {
+	__asm__ volatile ("outw %0, %1" : : "a" (_data), "Nd" (_port));
+}
+static inline short __attribute__((always_inline)) inw(short _port) {
+	unsigned long result;
+	__asm__ volatile ("inw %1, %0" : "=a" (result) : "Nd" (_port));
+	return result;
+}
+
 struct irq_struct{
 	char irq;
 	int (*functpoint)();
