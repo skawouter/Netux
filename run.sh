@@ -1,3 +1,3 @@
 #!/bin/bash
-killall qemu
-qemu -fda bin/floppy.img -m 32 -net tap -net nic,model=rtl8139,macaddr=ab:cd:ef:21:43:65 &
+killall qemu-system-i386
+../qemu/i386-softmmu/qemu-system-i386 -fda bin/floppy.img -m 32 -enable-kvm -sdl -drive file=./test.img,if=ide,media=disk
