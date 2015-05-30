@@ -10,7 +10,7 @@ DEVDIR = ./src/devices/
 LOADDIR = ./src/loader/
 INITDIR = ./src/init/
 SRCDIR = ./src/
-MODULES = kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o devices.o pci.o math.o mm.o mmas.o
+MODULES = kernel.o loader.o desctbl.o isr.o irq.o keyb.o console.o desctblas.o interrupt.o devices.o pci.o math.o mm.o mmas.o ata.o
 all: kernel
 
 kernel: $(MODULES)
@@ -42,7 +42,7 @@ interrupt.o: $(INITDIR)interrupt.s
 
 isr.o: $(INITDIR)isr.c 
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
-	
+
 irq.o: $(INITDIR)irq.c 
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
 
@@ -51,7 +51,10 @@ keyb.o: $(DEVDIR)keyb.c
 
 devices.o: $(DEVDIR)device.c
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
-	
+
+ata.o: $(DEVDIR)ata.c
+	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
+
 mm.o: $(INITDIR)mm.c 
 	$(CC) -o $(BIN)$@ -c $? $(CFLAGS)
 
