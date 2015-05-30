@@ -5,13 +5,13 @@
 void init_pci(void){
 	write("do pci stuff");
 	short x,y,t;
-    char macaddr[8];
+	char macaddr[8];
 	unsigned long inp;
 	unsigned long dev;
-    unsigned long temp;
-    unsigned long iobase;
-    unsigned long inters;
-//devstruct detected;
+	unsigned long temp;
+	unsigned long iobase;
+	unsigned long inters;
+	//devstruct detected;
 	for (x=0; x < 128; x++){
 		for (y=0; y <16; y++){
 			inp  = pci_readword(x,y,0,0);
@@ -31,12 +31,11 @@ void init_pci(void){
                                         writehex(inters);
                                     }
                                  }*/
-                                 
 
                                  for (t=8; t <= 14; t++){ 
                                     //base addresses from 8 til 14
                                     iobase = pci_readword(x,y,0,t);
-                                                                       
+
                                     if ((iobase & 0x1) == 0x1){ 
                                         //iobase ends with 1
                                         iobase = iobase & 0XFFFFFFF0;
@@ -82,6 +81,7 @@ void init_pci(void){
                         break;
                     default:
                         write("unknown vender");
+			writehex(inp);
                 }
 			}
 		}
