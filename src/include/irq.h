@@ -24,6 +24,11 @@ static inline short __attribute__((always_inline)) inl(short _port) {
 	__asm__ volatile ("inl %1, %0" : "=a" (result) : "Nd" (_port));
 	return result;
 }
+inline static unsigned short ins(unsigned short _port) {
+	unsigned short rv;
+	__asm__ volatile ("inw %1, %0" : "=a" (rv) : "dN" (_port));
+	return rv;
+}
 
 struct irq_struct{
 	char irq;

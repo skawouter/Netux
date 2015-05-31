@@ -14,6 +14,7 @@ void ata_io_wait(struct ata_dev *dev){
 	}
 }
 void ata_init_device(struct ata_dev *dev){
+	int i;
 	ata_soft_reset(dev);
 	//ATA_REG_HDDEVSEL
 	outb(dev->iobus + 0x06, 0XA0 | dev->slave << 4);
@@ -27,8 +28,8 @@ void ata_init_device(struct ata_dev *dev){
 		write("NO ATA FOUND");
 		return;
 	}
+	write("INIT ATA DEVICE");
 	if (c1 == 0x00 && ch == 0x00) {
-		write("INIT ATA DEVICE");
 		outb(dev->iobus + 1, 1);
 		outb(dev->control , 0);
 		outb(dev->iobus + 0x06, 0xA0 | dev->slave << 4);
@@ -37,9 +38,29 @@ void ata_init_device(struct ata_dev *dev){
 		outb(dev->iobus + 0x07, 0xEC);
 		ata_io_wait(dev);
 		//ATA_REG_COMMAND
-		int status = inb(dev->iobus + 0x07);
+		unsigned char status = inb(dev->iobus + 0x07);
 		write ("STATUS");
 		writehex(status);
+		unsigned short int *buf = (unsigned short int *)&dev->identity;
+
+		for (i = 0; i < 256; i++){
+			buf[i] = ins(dev->iobus);
+		}
+		unsigned char *ptr = (unsigned char * )&dev->identity.model;
+		for (i = 0; i < 39; i+=2) {
+			unsigned char tmp = ptr[i+1];
+			ptr[i+1] = ptr[i];
+			ptr[i] = tmp;
+		}
+		write("MODEL");
+		write(dev->identity.model);
+		write("Sectors 48");
+		writenumber((unsigned long int) dev->identity.sectors_48);
+
+		write("Sectors 24");
+		writenumber( dev->identity.sectors_28);
+		//ATA_REG_CONTROL
+		outb(dev->iobus + 0x0C, 0);
 
 	}
 }
