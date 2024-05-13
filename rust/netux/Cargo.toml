@@ -1,0 +1,22 @@
+[package]
+name = "netux"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+volatile="0.2.6" #avoid optimizing stuff away in vga
+lazy_static= { version="1.0", features=["spin_no_std"] } #load static lazyly during execution
+spin="0.9.8"
+x86_64={ version = "0.14.2"}
+pic8259="0.10.4"
+pc-keyboard="0.5.0"
+bootloader ={ version = "0.9.8", features = ["map_physical_memory"] }
+
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
