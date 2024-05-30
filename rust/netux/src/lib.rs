@@ -4,12 +4,14 @@
 pub mod interrupts;
 pub mod vga_buffer;
 pub mod gdt;
+pub mod memory;
 
 pub fn hlt_loop() -> !{
     loop {
         x86_64::instructions::hlt();
     }
 }
+
 pub fn init(){
     gdt::init();
     interrupts::init_idt();

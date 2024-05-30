@@ -71,7 +71,7 @@ recover:
 
 install:
 	losetup /dev/loop1 $(BIN)floppy.img
-	mount -t msdos /dev/loop1 /media/img
-	cp $(BIN)kernel.bin /media/img/kernel.bin
-	umount /media/img
+	mount -t msdos /dev/loop1 /mnt/img
+	cp $(BIN)kernel.bin /mnt/img/kernel.bin
+	umount /mnt/img
 	losetup -d /dev/loop1
